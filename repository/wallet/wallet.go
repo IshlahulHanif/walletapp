@@ -80,7 +80,7 @@ func (m Module) GetWalletAmountByCustomerID(ctx context.Context, customerID stri
 	var (
 		err    error
 		amount float64
-	)
+	) //TODO: make this return the wallet object
 
 	err = m.database.Get(ctx, &amount, ConstGetWalletAmountByCustomerID, customerID)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
