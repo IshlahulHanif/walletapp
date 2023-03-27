@@ -76,19 +76,19 @@ func (m Module) IncrWalletAmount(ctx context.Context, customerID string, amount 
 	return nil
 }
 
-func (m Module) GetWalletAmountByCustomerID(ctx context.Context, customerID string) (float64, error) {
+func (m Module) GetWalletAmountByCustomerID(ctx context.Context, customerID string) (entity.Wallet, error) {
 	var (
 		err    error
-		amount float64
-	) //TODO: make this return the wallet object
+		wallet entity.Wallet
+	)
 
-	err = m.database.Get(ctx, &amount, ConstGetWalletAmountByCustomerID, customerID)
+	err = m.database.Get(ctx, &wallet, ConstGetWalletByCustomerID, customerID)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		logtrace.PrintLogErrorTrace(err)
-		return amount, err
+		return wallet, err
 	}
 
-	return amount, nil
+	return wallet, nil
 }
 
 func (m Module) UpdateWalletStatusByCustomerID(ctx context.Context, customerID string, isEnabled bool) error {

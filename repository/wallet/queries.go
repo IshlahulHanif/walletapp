@@ -37,9 +37,16 @@ const (
 		    customer_id = :customer_id
 	`
 
-	ConstGetWalletAmountByCustomerID = `
+	ConstGetWalletByCustomerID = `
 		SELECT 
-		    balance
+		    id,
+			customer_id, 
+		    is_enabled,
+			balance,
+			create_time,
+			created_by,
+		    update_time,
+		    updated_by
 		FROM 
 		    wla_wallet 
 		WHERE 
