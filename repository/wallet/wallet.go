@@ -4,6 +4,8 @@ import (
 	"Julo/walletapp/entity"
 	"Julo/walletapp/utils"
 	"context"
+	"database/sql"
+	"errors"
 	"github.com/IshlahulHanif/logtrace"
 	"time"
 )
@@ -81,7 +83,7 @@ func (m Module) GetWalletAmountByCustomerID(ctx context.Context, customerID stri
 	)
 
 	err = m.database.Get(ctx, &amount, ConstGetWalletAmountByCustomerID, customerID)
-	if err != nil {
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		logtrace.PrintLogErrorTrace(err)
 		return amount, err
 	}
