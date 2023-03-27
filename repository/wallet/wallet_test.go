@@ -90,7 +90,7 @@ func TestModule_GetWalletAmountTest(t *testing.T) {
 		panic(err)
 	}
 
-	amount, err := m.GetWalletAmountByCustomerID(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959")
+	amount, err := m.GetWalletByCustomerID(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959")
 	if err != nil {
 		panic(err)
 	}
