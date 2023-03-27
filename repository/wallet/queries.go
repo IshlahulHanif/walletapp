@@ -45,4 +45,15 @@ const (
 		WHERE 
 		    customer_id = $1
 	`
+
+	ConstUpdateWalletStatusByCustomerID = `
+		UPDATE 
+		    wla_wallet 
+		SET 
+		    is_enabled = :is_enabled,
+		    update_time = :update_time,
+		    updated_by = :updated_by
+		WHERE 
+		    customer_id = :customer_id
+	`
 )

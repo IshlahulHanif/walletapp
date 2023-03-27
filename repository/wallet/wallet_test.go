@@ -90,9 +90,31 @@ func TestModule_GetWalletAmountTest(t *testing.T) {
 		panic(err)
 	}
 
-	amount, err := m.GetWalletAmountByUserID(ctx, "shlh-test")
+	amount, err := m.GetWalletAmountByCustomerID(ctx, "shlh-test")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(amount)
+}
+
+func TestModule_UpdateWalletStatusByCustomerIDTest(t *testing.T) {
+	ctx := context.Background()
+
+	m, err := GetInstance(utils.Config{
+		DatabaseConfig: database.ConfigDatabase{
+			Host:     "127.0.0.1",
+			Port:     "5432",
+			User:     "postgres",
+			Password: "password",
+			Dbname:   "wallet_db",
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	err = m.UpdateWalletStatusByCustomerID(ctx, "shlh-test", true)
+	if err != nil {
+		panic(err)
+	}
 }

@@ -74,7 +74,7 @@ func (m Module) IncrWalletAmount(ctx context.Context, customerID string, amount 
 	return nil
 }
 
-func (m Module) GetWalletAmountByUserID(ctx context.Context, customerID string) (float64, error) {
+func (m Module) GetWalletAmountByCustomerID(ctx context.Context, customerID string) (float64, error) {
 	var (
 		err    error
 		amount float64
@@ -87,4 +87,26 @@ func (m Module) GetWalletAmountByUserID(ctx context.Context, customerID string) 
 	}
 
 	return amount, nil
+}
+
+func (m Module) UpdateWalletStatusByCustomerID(ctx context.Context, customerID string, isEnabled bool) error {
+	var (
+		err         error
+		processTime = time.Now()
+	)
+
+	wallet := entity.Wallet{
+		CustomerID: customerID,
+		IsEnabled:  isEnabled,
+		UpdateTime: processTime,
+		UpdatedBy:  utils.ConstAppName,
+	}
+
+	_, err = m.database.NamedExec(ctx, ConstUpdateWalletStatusByCustomerID, wallet)
+	if err != nil {
+		logtrace.PrintLogErrorTrace(err)
+		return err
+	}
+
+	return nil
 }
