@@ -26,7 +26,7 @@ func (m Module) InsertNewTransaction(ctx context.Context, trx entity.Transaction
 	return nil
 }
 
-func (m Module) GetAllTransactionByWalletID(ctx context.Context, walletID int64) ([]entity.TransactionHistory, error) {
+func (m Module) GetAllTransactionByWalletID(ctx context.Context, walletID string) ([]entity.TransactionHistory, error) {
 	var (
 		err     error
 		trxData []entity.TransactionHistory

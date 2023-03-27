@@ -24,7 +24,7 @@ func TestModule_CreateNewWalletCreateWalletTest(t *testing.T) {
 		panic(err)
 	}
 
-	err = m.CreateNewWallet(ctx, "shlh-test")
+	err = m.CreateNewWallet(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959")
 	if err != nil {
 		panic(err)
 	}
@@ -46,7 +46,7 @@ func TestModule_UpdateWalletAmountTest(t *testing.T) {
 		panic(err)
 	}
 
-	err = m.UpdateWalletAmount(ctx, "shlh-test", 10000)
+	err = m.UpdateWalletAmount(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959", 10000)
 	if err != nil {
 		panic(err)
 	}
@@ -68,7 +68,7 @@ func TestModule_IncrWalletAmountTest(t *testing.T) {
 		panic(err)
 	}
 
-	err = m.IncrWalletAmount(ctx, "shlh-test", 10000)
+	err = m.IncrWalletAmount(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959", 10000)
 	if err != nil {
 		panic(err)
 	}
@@ -90,7 +90,7 @@ func TestModule_GetWalletAmountTest(t *testing.T) {
 		panic(err)
 	}
 
-	amount, err := m.GetWalletAmountByCustomerID(ctx, "shlh-test")
+	amount, err := m.GetWalletAmountByCustomerID(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959")
 	if err != nil {
 		panic(err)
 	}
@@ -113,7 +113,7 @@ func TestModule_UpdateWalletStatusByCustomerIDTest(t *testing.T) {
 		panic(err)
 	}
 
-	err = m.UpdateWalletStatusByCustomerID(ctx, "shlh-test", true)
+	err = m.UpdateWalletStatusByCustomerID(ctx, "dc4fc339-787f-4d6b-b197-686065ca8959", true)
 	if err != nil {
 		panic(err)
 	}

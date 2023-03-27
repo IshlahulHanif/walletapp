@@ -5,10 +5,11 @@ import (
 	"Julo/walletapp/utils"
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"testing"
 )
 
-func TestModule_GetUserProviderByToken(t *testing.T) {
+func TestModule_InsertUserProviderByToken(t *testing.T) {
 	ctx := context.Background()
 
 	m, err := GetInstance(utils.Config{
@@ -24,13 +25,13 @@ func TestModule_GetUserProviderByToken(t *testing.T) {
 		panic(err)
 	}
 
-	err = m.UpsertUserProviderToken(ctx, "shlh-test", "new-token")
+	err = m.InsertUserProviderToken(ctx, uuid.NewString(), "new-token")
 	if err != nil {
 		panic(err)
 	}
 }
 
-func TestModule_UpsertUserProviderToken(t *testing.T) {
+func TestModule_GetUserProviderToken(t *testing.T) {
 	ctx := context.Background()
 
 	m, err := GetInstance(utils.Config{

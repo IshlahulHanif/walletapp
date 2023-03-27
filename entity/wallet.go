@@ -3,7 +3,7 @@ package entity
 import "time"
 
 type Wallet struct {
-	ID         int64     `json:"id" db:"id"`
+	ID         string    `json:"id" db:"id"`
 	CustomerID string    `json:"customer_id" db:"customer_id"`
 	IsEnabled  bool      `json:"is_enabled" db:"is_enabled"`
 	Balance    float64   `json:"balance" db:"balance"`

@@ -7,11 +7,11 @@ type Module struct {
 	database database.MethodDatabase
 }
 
-type MemoryResource struct {
+type MemoryResource struct { // TODO: delete if we wont implement mem cache
 	UserWallet map[string]Wallet
 }
 
-type Wallet struct {
+type Wallet struct { // TODO: delete if we wont implement mem cache
 	IsEnabled bool    `json:"isEnabled"`
 	Amount    float64 `json:"amount"`
 }

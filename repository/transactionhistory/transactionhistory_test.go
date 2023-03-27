@@ -27,7 +27,7 @@ func TestModule_GetAllTransactionByWalletID(t *testing.T) {
 		panic(err)
 	}
 
-	res, err := m.GetAllTransactionByWalletID(ctx, 2)
+	res, err := m.GetAllTransactionByWalletID(ctx, "42487142-1ee7-4326-94b9-c3d2386e493a")
 	if err != nil {
 		panic(err)
 	}
@@ -53,10 +53,10 @@ func TestModule_InsertNewTransaction(t *testing.T) {
 	trx := entity.TransactionHistory{
 		ID:           uuid.NewString(),
 		Status:       "success",
-		WalletID:     2,
+		WalletID:     "42487142-1ee7-4326-94b9-c3d2386e493a",
 		TransactedAt: time.Now(),
 		Type:         "deposit",
-		Amount:       200,
+		Amount:       4000,
 		ReferenceID:  uuid.NewString(),
 	}
 

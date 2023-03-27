@@ -34,6 +34,30 @@ func (m Module) UpsertUserProviderToken(ctx context.Context, customerID string, 
 	return nil
 }
 
+func (m Module) InsertUserProviderToken(ctx context.Context, customerID string, token string) error {
+	var (
+		err         error
+		processTime = time.Now()
+	)
+
+	userProvider := entity.UserProvider{
+		CustomerID: customerID,
+		Token:      token,
+		CreateTime: processTime,
+		CreatedBy:  utils.ConstAppName,
+		UpdateTime: processTime,
+		UpdatedBy:  utils.ConstAppName,
+	}
+
+	_, err = m.database.NamedExec(ctx, ConstInsertUserProviderToken, userProvider)
+	if err != nil {
+		logtrace.PrintLogErrorTrace(err)
+		return err
+	}
+
+	return nil
+}
+
 func (m Module) GetUserProviderByToken(ctx context.Context, token string) (entity.UserProvider, error) {
 	var (
 		err          error

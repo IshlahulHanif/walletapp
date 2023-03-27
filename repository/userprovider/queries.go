@@ -18,6 +18,21 @@ const (
             update_time = :update_time,
             updated_by = :updated_by
 	`
+
+	ConstInsertUserProviderToken = `
+		INSERT INTO wla_user_provider (
+			customer_id, 
+			token, 
+			create_time,
+			created_by
+		) VALUES (
+			:customer_id, 
+			:token, 
+			:create_time, 
+			:created_by
+		)
+	`
+
 	ConstGetUserProviderByToken = `
 		SELECT 
 		    customer_id, 
