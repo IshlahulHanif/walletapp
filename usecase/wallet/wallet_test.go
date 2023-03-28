@@ -56,3 +56,76 @@ func TestModule_ChangeWalletStatus(t *testing.T) {
 	}
 	fmt.Println(wlt)
 }
+
+func TestModule_CheckWalletBalance(t *testing.T) {
+	ctx := context.Background()
+
+	m, err := GetInstance(utils.Config{
+		DatabaseConfig: database.ConfigDatabase{
+			Host:     "127.0.0.1",
+			Port:     "5432",
+			User:     "postgres",
+			Password: "password",
+			Dbname:   "wallet_db",
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	wlt, err := m.CheckWalletBalance(ctx, "new-token")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(wlt)
+}
+
+func TestModule_CheckWalletTransactionHistory(t *testing.T) {
+	ctx := context.Background()
+
+	m, err := GetInstance(utils.Config{
+		DatabaseConfig: database.ConfigDatabase{
+			Host:     "127.0.0.1",
+			Port:     "5432",
+			User:     "postgres",
+			Password: "password",
+			Dbname:   "wallet_db",
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	trx, err := m.CheckWalletTransactionHistory(ctx, "new-token")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(trx)
+}
+
+func TestModule_updateWalletBalance(t *testing.T) {
+	ctx := context.Background()
+
+	m, err := GetInstance(utils.Config{
+		DatabaseConfig: database.ConfigDatabase{
+			Host:     "127.0.0.1",
+			Port:     "5432",
+			User:     "postgres",
+			Password: "password",
+			Dbname:   "wallet_db",
+		},
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	wlt, err := m.updateWalletBalance(ctx, UpdateWalletBalanceReq{
+		Token:       "new-token",
+		Amount:      -50000,
+		ReferenceID: uuid.NewString(),
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(wlt)
+}

@@ -51,7 +51,6 @@ func TestModule_InsertNewTransaction(t *testing.T) {
 	}
 
 	trx := entity.TransactionHistory{
-		ID:           uuid.NewString(),
 		Status:       "success",
 		WalletID:     "42487142-1ee7-4326-94b9-c3d2386e493a",
 		TransactedAt: time.Now(),
