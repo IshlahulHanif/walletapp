@@ -5,6 +5,11 @@ type JSend struct {
 	Data   interface{} `json:"data"`
 }
 
+const (
+	ConstJSendSuccess = "success"
+	ConstJSendFail    = "fail"
+)
+
 /*
 EXAMPLE:
 {

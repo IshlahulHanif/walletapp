@@ -74,29 +74,30 @@ func (m Module) ChangeWalletStatus(ctx context.Context, token string, isEnable b
 	return resp, nil
 }
 
-func (m Module) CheckWalletBalance(ctx context.Context, token string) (float64, error) {
+func (m Module) CheckWalletBalance(ctx context.Context, token string) (entity.Wallet, error) {
 	var (
 		err error
+		wlt entity.Wallet
 	)
 
 	// get the user who hold this token
 	userProvider, err := m.repo.user.GetUserProviderByToken(ctx, token)
 	if err != nil {
-		return 0, err
+		return wlt, err
 	}
 
-	wlt, err := m.repo.wallet.GetWalletByCustomerID(ctx, userProvider.CustomerID)
+	wlt, err = m.repo.wallet.GetWalletByCustomerID(ctx, userProvider.CustomerID)
 	if err != nil {
-		return 0, err
+		return wlt, err
 	}
 
 	if !wlt.IsEnabled {
 		err = entity.ConstErrWalletDisabled
 		logtrace.PrintLogErrorTrace(err)
-		return 0, err
+		return wlt, err
 	}
 
-	return wlt.Balance, nil
+	return wlt, nil
 }
 
 func (m Module) CheckWalletTransactionHistory(ctx context.Context, token string) ([]entity.TransactionHistory, error) {
@@ -152,19 +153,21 @@ func (m Module) WithdrawMoneyFromWallet(ctx context.Context, req UpdateWalletBal
 		err  error
 	)
 
-	if req.Amount > 0 {
+	if req.Amount < 0 {
 		err = entity.ConstErrInvalidAmount
 		logtrace.PrintLogErrorTrace(err)
 		return resp, err
 	}
 
+	req.Amount = -req.Amount
+
 	return m.updateWalletBalance(ctx, req)
 }
 
-func (m Module) updateWalletBalance(ctx context.Context, req UpdateWalletBalanceReq) (entity.Wallet, error) {
+func (m Module) updateWalletBalance(ctx context.Context, req UpdateWalletBalanceReq) (resp entity.Wallet, errFinal error) {
 	var (
-		resp       entity.Wallet
-		err, errDB error
+		userProvider entity.UserProvider
+		err, errDB   error
 	)
 
 	// TODO: really should use tx.Commit & tx.Rollback here
@@ -199,13 +202,19 @@ func (m Module) updateWalletBalance(ctx context.Context, req UpdateWalletBalance
 			ReferenceID:  req.ReferenceID,
 		})
 		if errInsertHistory != nil {
-			logtrace.PrintLogErrorTrace(errInsertHistory)
-			// should do a rollback here
+			resp = entity.Wallet{}
+			errFinal = errInsertHistory
+
+			// TODO: should use tx.Commit() and tx.Revert here
+			err = m.repo.wallet.IncrWalletAmount(ctx, userProvider.CustomerID, -req.Amount)
+			if err != nil {
+				errFinal = err
+			}
 		}
 	}()
 
 	// get the user who hold this token
-	userProvider, errDB := m.repo.user.GetUserProviderByToken(ctx, req.Token)
+	userProvider, errDB = m.repo.user.GetUserProviderByToken(ctx, req.Token)
 	if errDB != nil {
 		return resp, errDB
 	}

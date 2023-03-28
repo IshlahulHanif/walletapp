@@ -4,8 +4,6 @@ import (
 	"Julo/walletapp/entity"
 	"Julo/walletapp/utils"
 	"context"
-	"database/sql"
-	"errors"
 	"github.com/IshlahulHanif/logtrace"
 	"time"
 )
@@ -65,7 +63,7 @@ func (m Module) GetUserProviderByToken(ctx context.Context, token string) (entit
 	)
 
 	err = m.database.Get(ctx, &userProvider, ConstGetUserProviderByToken, token)
-	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+	if err != nil {
 		logtrace.PrintLogErrorTrace(err)
 		return userProvider, err
 	}
